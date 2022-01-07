@@ -14,7 +14,6 @@ type User struct {
 	imgUrl      string
 	country     string
 	dateOfBirth time.Time
-	lastLogin   time.Time
 	createdAt   time.Time
 	updatedAt   time.Time
 	deletedAt   gorm.DeletedAt `gorm:"index"`
