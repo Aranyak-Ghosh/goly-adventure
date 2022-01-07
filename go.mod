@@ -1,4 +1,4 @@
-module ak/spotify
+module github.com/Aranyak-Ghosh/spotify
 
 go 1.17
 
