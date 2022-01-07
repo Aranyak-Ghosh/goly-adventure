@@ -13,4 +13,6 @@ type User struct {
 	imgUrl      string
 	country     string
 	dateOfBirth time.Time
+
+	follows []User `gorm:"many2many:user_follows"`
 }
