@@ -8,18 +8,18 @@ import (
 )
 
 type User struct {
-	id          uuid.UUID `gorm:"type:uuid;primary_key;default:uuid_generate_v4()"`
-	name        string
-	email       string `gorm: "unique_index"`
-	imgUrl      string
-	country     string
-	public      bool `gorm:"default:true"`
-	dateOfBirth time.Time
-	createdAt   time.Time
-	updatedAt   time.Time
-	deletedAt   gorm.DeletedAt `gorm:"index"`
+	ID          uuid.UUID `gorm:"type:uniqueidentifier;primary_key;default:NEWID()"`
+	Name        string
+	Email       string `gorm: "unique_index"`
+	ImgUrl      string
+	Country     string
+	Public      bool `gorm:"default:true"`
+	DateOfBirth time.Time
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+	DeletedAt   gorm.DeletedAt `gorm:"index"`
 
-	follows []User `gorm:"many2many:user_follows"`
+	Follows []User `gorm:"many2many:user_follows"`
 }
 
 type UserDAO struct {
