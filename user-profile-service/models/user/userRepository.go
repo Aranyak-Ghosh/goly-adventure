@@ -1,12 +1,33 @@
 package user
 
 import (
+	"time"
+
 	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 )
 
 func (user *UserDAO) Initialize(db *gorm.DB) {
 	user.db = db
+}
+func (user *UserDAO) SeedData() error {
+	err := user.Create(&User{
+		Name:        "Aranyak Ghosh",
+		Email:       "aranyakghosh@gmail.com",
+		Country:     "India",
+		Public:      true,
+		DateOfBirth: time.Date(1996, time.December, 16, 0, 0, 0, 0, time.UTC),
+	})
+
+	user.Create(&User{
+		Name:        "Shailika Garg",
+		Email:       "shailika.garg@gmail.com",
+		Country:     "India",
+		Public:      true,
+		DateOfBirth: time.Date(1992, time.August, 21, 0, 0, 0, 0, time.UTC),
+	})
+
+	return err
 }
 
 func (mw *UserDAO) GetById(id uuid.UUID) (*User, error) {
@@ -17,11 +38,11 @@ func (mw *UserDAO) GetById(id uuid.UUID) (*User, error) {
 
 func (mw *UserDAO) List(searchParam string, offset int, limit int) ([]User, int64, error) {
 	var users []User
-	var count *int64
-	query := mw.db.Where("name LIKE ?", "%"+searchParam+"%").Or("email LIKE ?", "%"+searchParam+"%").Order("name DESC")
-	queryResult := query.Offset(offset).Limit(limit).Find(&users)
-	query.Count(count)
-	return users, *count, queryResult.Error
+	var count int64
+	query := mw.db.Model(&users).Where("name LIKE ?", "%"+searchParam+"%").Or("email LIKE ?", "%"+searchParam+"%")
+	query.Count(&count)
+	queryResult := query.Order("name DESC").Offset(offset).Limit(limit).Find(&users)
+	return users, count, queryResult.Error
 }
 
 func (mw *UserDAO) Create(model *User) error {
