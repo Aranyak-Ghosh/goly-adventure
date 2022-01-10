@@ -3,14 +3,13 @@ package user
 import (
 	"time"
 
-	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 )
 
 type User struct {
-	ID          uuid.UUID `gorm:"type:uniqueidentifier;primary_key;default:NEWID()"`
+	ID          string `gorm:"primary_key;"`
 	Name        string
-	Email       string `gorm: "unique_index"`
+	Email       string `gorm:"unique_index"`
 	ImgUrl      string
 	Country     string
 	Public      bool `gorm:"default:true"`

@@ -3,7 +3,7 @@ package user
 import (
 	"time"
 
-	uuid "github.com/satori/go.uuid"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -46,6 +46,9 @@ func (mw *UserDAO) List(searchParam string, offset int, limit int) ([]User, int6
 }
 
 func (mw *UserDAO) Create(model *User) error {
+	if model.ID == "" {
+		model.ID = uuid.New().String()
+	}
 	result := mw.db.Create(&model)
 	return result.Error
 }
