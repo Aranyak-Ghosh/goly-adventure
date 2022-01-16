@@ -1,6 +1,7 @@
 package user
 
 import (
+	"errors"
 	"time"
 
 	"github.com/google/uuid"
@@ -30,10 +31,11 @@ func (user *UserDAO) SeedData() error {
 	return err
 }
 
-func (mw *UserDAO) GetById(id uuid.UUID) (*User, error) {
-	result := mw.db.First(&mw.User, id)
+func (mw *UserDAO) GetById(id uuid.UUID) (User, error) {
+	var user User
+	result := mw.db.First(user, id.String())
 
-	return &mw.User, result.Error
+	return user, result.Error
 }
 
 func (mw *UserDAO) List(searchParam string, offset int, limit int) ([]User, int64, error) {
@@ -47,7 +49,11 @@ func (mw *UserDAO) List(searchParam string, offset int, limit int) ([]User, int6
 
 func (mw *UserDAO) Create(model *User) error {
 	if model.ID == "" {
-		model.ID = uuid.New().String()
+		model.ID = uuid.NewString()
+	}
+	err := validateId(model.ID)
+	if err != nil {
+		return err
 	}
 	result := mw.db.Create(&model)
 	return result.Error
@@ -78,13 +84,39 @@ func (mw *UserDAO) UnFollow(user *User, follow *User) error {
 	return err
 }
 
-func (mw *UserDAO) ListFollowing(user *User, offset int, limit int) ([]User, int64, error) {
+func (mw *UserDAO) ListFollowing(userId string, search string, offset int, limit int) ([]User, int64, error) {
+	var user = User{ID: userId}
 	var users []User
 	var count *int64
-	query := mw.db.Model(&user).Association("Follows")
-	queryError := query.Find(&users)
-	*count = query.Count()
-	return users, *count, queryError
+
+	query := mw.db.Joins("JOIN user_follows on user_follows.user_id = users.id").Joins("JOIN users as following on user_follows.follow_id = following.id").Preload("Follows").Where("following.name LIKE ?", "%"+search+"%").Model(&user)
+
+	queryError := query.Limit(limit).Offset(offset).Find(&users)
+	_ = query.Count(count)
+	return users, *count, queryError.Error
 }
 
-// func (mw *UserDAO) ListFollowers(user *U)
+func (mw *UserDAO) ListFollowers(userId string, search string, offset int, limit int) ([]User, int64, error) {
+
+	var followers []User
+	var count int64
+	query := mw.db.Joins("JOIN user_follows on user_follows.user_id = users.id").Joins("JOIN users as following on user_follows.follow_id = following.id").Preload("Follows").Where("following.ID = ?", userId).Where("users.id LIKE ?", "%"+search+"%").Model(&User{})
+
+	_ = query.Count(&count)
+	queryError := query.Limit(limit).Offset(offset).Find(followers)
+
+	return followers, count, queryError.Error
+}
+
+func validateId(id string) error {
+	if len(id) != 36 {
+		return errors.New("invalid id")
+	}
+	var err error
+	_, err = uuid.Parse(id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

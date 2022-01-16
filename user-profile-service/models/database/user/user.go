@@ -7,7 +7,7 @@ import (
 )
 
 type User struct {
-	ID          string `gorm:"primary_key;"`
+	ID          string `gorm:"primary_key;size:36"`
 	Name        string
 	Email       string `gorm:"unique_index"`
 	ImgUrl      string
@@ -23,5 +23,4 @@ type User struct {
 
 type UserDAO struct {
 	db *gorm.DB
-	User
 }
