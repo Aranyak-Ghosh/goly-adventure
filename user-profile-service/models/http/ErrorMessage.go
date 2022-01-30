@@ -3,6 +3,7 @@ package http
 type ECODE int
 
 type ErrorResponse struct {
+	StatusCode    int    `json:"-"`
 	ErrorCode     ECODE  `json:"code"`
 	ErrorMessage  string `json:"errorMessage"`
 	ErrorDetails  string `json:"errorDetails"`
