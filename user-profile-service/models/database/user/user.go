@@ -21,6 +21,6 @@ type User struct {
 	Follows []User `gorm:"many2many:user_follows"`
 }
 
-type UserDAO struct {
+type UserRepository struct {
 	db *gorm.DB
 }
