@@ -26,6 +26,7 @@ type UserController interface {
 	UnFollowUser(c *gin.Context)
 	ListFollowers(c *gin.Context)
 	ListFollowing(c *gin.Context)
+	RegisterRoutes(r *gin.RouterGroup)
 }
 
 func (controller userController) ListUsers(c *gin.Context) {
@@ -206,4 +207,20 @@ func (controller userController) ListFollowing(c *gin.Context) {
 	} else {
 		c.JSON(200, result)
 	}
+}
+
+func (controller userController) RegisterRoutes(router *gin.RouterGroup) {
+	router.GET("", controller.ListUsers)
+	router.GET("/:userId", controller.GetUser)
+	router.POST("", controller.CreateUser)
+	router.PUT("/:userId", controller.UpdateUser)
+	router.DELETE("/:userId", controller.DeleteUser)
+	router.GET("/:userId/followers", controller.ListFollowers)
+	router.GET("/:userId/following", controller.ListFollowing)
+	router.POST("/:userId/follow/:followedUserId", controller.FollowUser)
+	router.DELETE("/:userId/follow/:followedUserId", controller.UnFollowUser)
+}
+
+func NewUserController(service service.UserService, logger *zap.SugaredLogger) UserController {
+	return &userController{service, logger}
 }
