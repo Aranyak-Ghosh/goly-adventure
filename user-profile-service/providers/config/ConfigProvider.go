@@ -23,7 +23,15 @@ func (container *ConfigContainer) GetDatabaseConfig() config.DatabaseConfig {
 
 func NewConfigContainer() (*ConfigContainer, error) {
 
-	cfg, err := ini.Load("config/config." + os.Getenv("ENV") + ".ini")
+	env := os.Getenv("ENV")
+	file := ""
+	if env == "" {
+		file = "conf/config.ini"
+	} else {
+		file = "conf/config." + env + ".ini"
+	}
+
+	cfg, err := ini.Load(file)
 
 	if err != nil {
 		panic(err)
