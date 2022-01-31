@@ -11,9 +11,16 @@ import (
 )
 
 func (mw *UserRepository) GetById(id string) (User, error) {
+
+	err := validateId(id)
+
+	if err != nil {
+		return User{}, err
+	}
+
 	var user User
 
-	result := mw.db.First(user, id)
+	result := mw.db.Where("id = ?", id).First(&user)
 
 	return user, result.Error
 }
@@ -60,25 +67,33 @@ func (mw *UserRepository) UnFollow(user *User, follow *User) error {
 }
 
 func (mw *UserRepository) ListFollowing(userId string, search string, offset int, limit int) ([]User, int64, error) {
-	var user = User{ID: userId}
 	var users []User
-	var count *int64
+	var count int64
 
-	query := mw.db.Joins("JOIN user_follows on user_follows.user_id = users.id").Joins("JOIN users as following on user_follows.follow_id = following.id").Preload("Follows").Where("following.name LIKE ?", "%"+search+"%").Model(&user)
+	query := mw.db.Model(&User{ID: userId}).Where("name LIKE ?", "%"+search+"%").Or("email LIKE ?", "%"+search+"%").Association("Follows")
 
-	queryError := query.Limit(limit).Offset(offset).Find(&users)
-	_ = query.Count(count)
-	return users, *count, queryError.Error
+	count = query.Count()
+	queryError := query.Find(&users)
+
+	if int64(offset) > count {
+		offset = int(count)
+	}
+
+	end := offset + limit
+	if int64(end) > count {
+		end = int(count)
+	}
+	return users[offset:end], count, queryError
 }
 
 func (mw *UserRepository) ListFollowers(userId string, search string, offset int, limit int) ([]User, int64, error) {
 
 	var followers []User
 	var count int64
-	query := mw.db.Joins("JOIN user_follows on user_follows.user_id = users.id").Joins("JOIN users as following on user_follows.follow_id = following.id").Preload("Follows").Where("following.ID = ?", userId).Where("users.id LIKE ?", "%"+search+"%").Model(&User{})
+	query := mw.db.Joins("inner JOIN user_follows on user_follows.user_id = users.id").Where("follow_id = ?", userId).Where("users.name LIKE ? or users.email LIKE ?", "%"+search+"%", "%"+search+"%").Model(&User{})
 
 	_ = query.Count(&count)
-	queryError := query.Limit(limit).Offset(offset).Find(followers)
+	queryError := query.Limit(limit).Offset(offset).Find(&followers)
 
 	return followers, count, queryError.Error
 }
@@ -94,12 +109,6 @@ func validateId(id string) error {
 	}
 
 	return nil
-}
-
-func NewUserRepository(db *gorm.DB) (user *UserRepository) {
-	user = &UserRepository{db: db}
-	user.Migrate()
-	return user
 }
 
 func (mw *UserRepository) Migrate() error {
@@ -125,6 +134,12 @@ func (user *UserRepository) SeedData() error {
 	})
 
 	return err
+}
+
+func NewUserRepository(db *gorm.DB) (user *UserRepository) {
+	user = &UserRepository{db: db}
+	user.Migrate()
+	return user
 }
 
 var Module = fx.Option(fx.Provide(NewUserRepository))
