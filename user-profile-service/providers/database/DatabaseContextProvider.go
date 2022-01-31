@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func NewDatabaseContext(configs *config.ConfigContainer) (*gorm.DB, error) {
+func NewDatabaseContext(configs *config.ConfigContainer) *gorm.DB {
 	var dbConfig = configs.GetDatabaseConfig()
 	connString := fmt.Sprintf("server=%s;user id=%s;password=%s;database=%s", dbConfig.Server, dbConfig.User, dbConfig.Password, dbConfig.Database)
 
@@ -19,7 +19,7 @@ func NewDatabaseContext(configs *config.ConfigContainer) (*gorm.DB, error) {
 		panic(err)
 	}
 
-	return db, err
+	return db
 }
 
-var Module = fx.Option(fx.Invoke(NewDatabaseContext))
+var Module = fx.Option(fx.Provide(NewDatabaseContext))
