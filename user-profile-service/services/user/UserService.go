@@ -65,9 +65,19 @@ func (service userService) CreateUser(user *userModel.User, transactionId string
 
 func (service userService) UpdateUser(user *userModel.User, transactionId string) *httpModels.ErrorResponse {
 	service.logger.Infow("UpdateUser", "TransactionId", transactionId, "user", user)
-	err := service.userRepository.Update(user)
+	userToUpdate, err := service.userRepository.GetById(user.ID)
 
 	var errorResponse *httpModels.ErrorResponse = nil
+
+	if err != nil {
+		errorResponse = errorhandling.HandleDatabaseError(err, transactionId)
+		return errorResponse
+	}
+
+	user.CreatedAt = userToUpdate.CreatedAt
+
+	err = service.userRepository.Update(user)
+
 	if err != nil {
 		errorResponse = errorhandling.HandleDatabaseError(err, transactionId)
 	}
