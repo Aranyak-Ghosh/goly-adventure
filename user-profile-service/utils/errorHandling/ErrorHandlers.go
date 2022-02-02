@@ -12,7 +12,7 @@ import (
 func HandleDatabaseError(foundError error, transactionId string) *httpModels.ErrorResponse {
 	if errors.Is(foundError, gorm.ErrRecordNotFound) {
 		return generateErrorObject(http.StatusNotFound, httpModels.ECODE_ENTITY_NOT_FOUND, foundError.Error(), transactionId)
-	} else if errors.Is(foundError, gorm.ErrInvalidData) || errors.Is(foundError, gorm.ErrInvalidField) || errors.Is(foundError, validationErrors.ErrUUIDValidationFailed) {
+	} else if errors.Is(foundError, gorm.ErrInvalidData) || errors.Is(foundError, gorm.ErrInvalidField) || errors.Is(foundError, validationErrors.ErrInvalidUUID) {
 		return generateErrorObject(http.StatusBadRequest, httpModels.ECODE_VALIDATION_ERROR, foundError.Error(), transactionId)
 	} else if errors.Is(foundError, gorm.ErrModelValueRequired) || errors.Is(foundError, gorm.ErrPrimaryKeyRequired) {
 		return generateErrorObject(http.StatusBadRequest, httpModels.ECODE_MISSING_DATA, foundError.Error(), transactionId)

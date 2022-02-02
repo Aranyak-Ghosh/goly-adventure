@@ -1,5 +1,7 @@
 package http
 
+import "fmt"
+
 type ECODE int
 
 type ErrorResponse struct {
@@ -8,6 +10,10 @@ type ErrorResponse struct {
 	ErrorMessage  string `json:"errorMessage"`
 	ErrorDetails  string `json:"errorDetails"`
 	TransactionId string `json:"transactionId"`
+}
+
+func (er *ErrorResponse) Error() string {
+	return fmt.Sprintf("%d: %s", er.ErrorCode, er.ErrorMessage)
 }
 
 const (

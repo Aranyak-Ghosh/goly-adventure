@@ -1,7 +1,11 @@
 package errors
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 var (
-	ErrUUIDValidationFailed = errors.New("uuid validation failed")
+	ErrUUIDLenght  = errors.New("uuid validation failed")
+	ErrInvalidUUID = fmt.Errorf("uuid validation failed %w", ErrUUIDLenght)
 )
