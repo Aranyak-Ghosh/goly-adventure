@@ -100,12 +100,12 @@ func (mw *UserRepository) ListFollowers(userId string, search string, offset int
 
 func validateId(id string) error {
 	if len(id) != 36 {
-		return errors.ErrUUIDValidationFailed
+		return errors.ErrUUIDLenght
 	}
 	var err error
 	_, err = uuid.Parse(id)
 	if err != nil {
-		return errors.ErrUUIDValidationFailed
+		return errors.ErrInvalidUUID
 	}
 
 	return nil
