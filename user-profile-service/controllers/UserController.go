@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"strconv"
 
-	models "github.com/Aranyak-Ghosh/spotify/models/database/user"
-	httpModels "github.com/Aranyak-Ghosh/spotify/models/http"
-	service "github.com/Aranyak-Ghosh/spotify/services/user"
+	models "github.com/Aranyak-Ghosh/spotigo/user_profile/models/database/user"
+	httpModels "github.com/Aranyak-Ghosh/spotigo/user_profile/models/http"
+	service "github.com/Aranyak-Ghosh/spotigo/user_profile/services/user"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )

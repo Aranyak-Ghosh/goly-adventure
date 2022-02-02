@@ -4,8 +4,8 @@ import (
 	"errors"
 	"net/http"
 
-	validationErrors "github.com/Aranyak-Ghosh/spotify/errors"
-	httpModels "github.com/Aranyak-Ghosh/spotify/models/http"
+	validationErrors "github.com/Aranyak-Ghosh/spotigo/user_profile/errors"
+	httpModels "github.com/Aranyak-Ghosh/spotigo/user_profile/models/http"
 	"gorm.io/gorm"
 )
 

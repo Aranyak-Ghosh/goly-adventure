@@ -3,7 +3,7 @@ package database
 import (
 	"fmt"
 
-	"github.com/Aranyak-Ghosh/spotify/providers/config"
+	"github.com/Aranyak-Ghosh/spotigo/user_profile/providers/config"
 	"go.uber.org/fx"
 	"gorm.io/driver/sqlserver"
 	"gorm.io/gorm"

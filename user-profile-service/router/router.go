@@ -3,8 +3,8 @@ package router
 import (
 	"context"
 
-	"github.com/Aranyak-Ghosh/spotify/controllers"
-	"github.com/Aranyak-Ghosh/spotify/middlewares"
+	"github.com/Aranyak-Ghosh/spotigo/user_profile/controllers"
+	"github.com/Aranyak-Ghosh/spotigo/user_profile/middlewares"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/fx"
 	"go.uber.org/zap"

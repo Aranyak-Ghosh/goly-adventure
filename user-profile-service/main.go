@@ -1,14 +1,14 @@
 package main
 
 import (
-	"github.com/Aranyak-Ghosh/spotify/controllers"
-	"github.com/Aranyak-Ghosh/spotify/models/database/user"
-	"github.com/Aranyak-Ghosh/spotify/providers/config"
-	"github.com/Aranyak-Ghosh/spotify/providers/database"
-	"github.com/Aranyak-Ghosh/spotify/router"
-	userService "github.com/Aranyak-Ghosh/spotify/services/user"
-	"github.com/Aranyak-Ghosh/spotify/utils/http"
-	"github.com/Aranyak-Ghosh/spotify/utils/logger"
+	"github.com/Aranyak-Ghosh/spotigo/user_profile/controllers"
+	"github.com/Aranyak-Ghosh/spotigo/user_profile/models/database/user"
+	"github.com/Aranyak-Ghosh/spotigo/user_profile/providers/config"
+	"github.com/Aranyak-Ghosh/spotigo/user_profile/providers/database"
+	"github.com/Aranyak-Ghosh/spotigo/user_profile/router"
+	userService "github.com/Aranyak-Ghosh/spotigo/user_profile/services/user"
+	"github.com/Aranyak-Ghosh/spotigo/user_profile/utils/http"
+	"github.com/Aranyak-Ghosh/spotigo/user_profile/utils/logger"
 	"go.uber.org/fx"
 )
 

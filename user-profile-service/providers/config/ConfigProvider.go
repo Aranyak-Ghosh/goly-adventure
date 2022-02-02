@@ -3,7 +3,7 @@ package config
 import (
 	"os"
 
-	"github.com/Aranyak-Ghosh/spotify/models/config"
+	"github.com/Aranyak-Ghosh/spotigo/user_profile/models/config"
 	"go.uber.org/fx"
 	"gopkg.in/ini.v1"
 )

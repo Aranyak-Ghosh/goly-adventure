@@ -3,7 +3,7 @@ package user
 import (
 	"time"
 
-	"github.com/Aranyak-Ghosh/spotify/errors"
+	"github.com/Aranyak-Ghosh/spotigo/user_profile/errors"
 	"go.uber.org/fx"
 
 	"github.com/google/uuid"

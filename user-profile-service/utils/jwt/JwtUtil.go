@@ -3,7 +3,7 @@ package jwt
 import (
 	"fmt"
 
-	"github.com/Aranyak-Ghosh/spotify/utils/http"
+	"github.com/Aranyak-Ghosh/spotigo/user_profile/utils/http"
 	"github.com/golang-jwt/jwt"
 	"go.uber.org/fx"
 	"go.uber.org/zap"

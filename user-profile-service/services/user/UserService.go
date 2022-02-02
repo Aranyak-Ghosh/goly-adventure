@@ -1,9 +1,9 @@
 package user
 
 import (
-	userModel "github.com/Aranyak-Ghosh/spotify/models/database/user"
-	httpModels "github.com/Aranyak-Ghosh/spotify/models/http"
-	errorhandling "github.com/Aranyak-Ghosh/spotify/utils/errorHandling"
+	userModel "github.com/Aranyak-Ghosh/spotigo/user_profile/models/database/user"
+	httpModels "github.com/Aranyak-Ghosh/spotigo/user_profile/models/http"
+	errorhandling "github.com/Aranyak-Ghosh/spotigo/user_profile/utils/errorHandling"
 
 	"go.uber.org/fx"
 	"go.uber.org/zap"
