@@ -9,6 +9,7 @@ require (
 )
 
 require (
+	github.com/neo4j/neo4j-go-driver/v4 v4.4.0 // direct
 	go.uber.org/atomic v1.7.0 // indirect
 	go.uber.org/dig v1.12.0 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
