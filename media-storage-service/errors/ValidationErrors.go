@@ -7,5 +7,5 @@ import (
 
 var (
 	ErrUUIDInvalidLenght = errors.New("uuid validation failed")
-	ErrInvalidUUID       = fmt.Errorf("uuid validation failed %w", ErrUUIDLenght)
+	ErrInvalidUUID       = fmt.Errorf("uuid validation failed")
 )
