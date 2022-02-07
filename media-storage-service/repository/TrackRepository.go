@@ -17,5 +17,3 @@ func AddTrack(track entity.TrackEntity) neo4j.TransactionWork {
 		return result.Consume()
 	}
 }
-
-func ListTracks()
