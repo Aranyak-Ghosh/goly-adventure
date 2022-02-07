@@ -2,7 +2,7 @@ package entity
 
 import "time"
 
-type Track struct {
+type TrackEntity struct {
 	Id          string    `json:"id"`
 	Title       string    `json:"title"`
 	Description string    `json:"description"`
